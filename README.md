@@ -1,12 +1,16 @@
 # Nanoflann
 
-Very basic wrapper around the
-[nanoflann](https://github.com/jlblancoc/nanoflann) k nearest neighbors library.
+Very basic C function wrappers around the
+[nanoflann](https://github.com/jlblancoc/nanoflann) k nearest neighbors library,
+and associated julia interface on top of that.  This was created mainly for a
+benchmark comparison with NearestNeighbors.jl; it probably won't go any further.
 
-This was created mainly for benchmarking NearestNeighbors.jl, and may not go any
-further...
+Instructions: Compile src/nanoflann.cpp using a C++ compiler and run
+test/benchmark.jl from the test directory.
 
-Instructions: Compile src/nanoflann.cpp using a C++ compiler, and run test/benchmark.jl.
+On linux, you'll need something like
 
-[![Build Status](https://travis-ci.org/c42f/Nanoflann.jl.svg?branch=master)](https://travis-ci.org/c42f/Nanoflann.jl)
+```
+g++ -O3 -shared -fPIC -o nanoflann.so nanoflann.cpp -I/path/to/nanoflann-1.1.8/
+```
 
