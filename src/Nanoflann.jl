@@ -4,14 +4,14 @@ export KDTree, knn
 
 using NearestNeighbors
 
-const nanoflann_lib = :nanoflann
+include("../deps/deps.jl")
 
 type KDTree
     ptr::Ptr{Void}
 end
 
 function _free(tree::KDTree)
-    ccall((:nanoflann_free_tree, nanoflann_lib), Cint, (Ptr{Void},), tree.ptr)
+    ccall((:nanoflann_free_tree, nanoflann_lib), Void, (Ptr{Void},), tree.ptr)
 end
 
 function KDTree(data)

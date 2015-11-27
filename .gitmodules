@@ -1,0 +1,3 @@
+[submodule "deps/src"]
+	path = deps/src
+	url = https://github.com/jlblancoc/nanoflann

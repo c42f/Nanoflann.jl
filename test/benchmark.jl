@@ -1,10 +1,6 @@
 using Nanoflann
 using Base.Test
 
-
-# FIXME!
-push!(Libdl.DL_LOAD_PATH, "../src")
-
 function bench(tree, points)
     N = size(points,2)
     for i in rand(1:N, N)

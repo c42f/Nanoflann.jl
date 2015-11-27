@@ -124,7 +124,7 @@ int nanoflann_knn(const void* tree, const double* point, int dim, int k,
     return wrapper->knnSearch(point, dim, k, result_inds, result_dist2);
 }
 
-int nanoflann_free_tree(void* tree)
+void nanoflann_free_tree(void* tree)
 {
     delete static_cast<TreeWrapper*>(tree);
 }
