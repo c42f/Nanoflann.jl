@@ -90,7 +90,7 @@ class TreeWrapperN : public TreeWrapper
         }
 
     private:
-        typedef nanoflann::L2_Simple_Adaptor<double,ArrayPointWrapper<N>> DistanceAdaptor;
+        typedef nanoflann::L2_Simple_Adaptor<double,ArrayPointWrapper<N> > DistanceAdaptor;
         typedef nanoflann::KDTreeSingleIndexAdaptor<DistanceAdaptor, ArrayPointWrapper<N>, N> Tree;
 
         std::vector<std::pair<size_t, double> > m_matches;
