@@ -23,12 +23,15 @@ function KDTree(data)
     tree
 end
 
-function NearestNeighbors.knn(tree::KDTree, point, k)
-    inds = Vector{Csize_t}(k)
-    dists2 = Vector{Cdouble}(k)
+function NearestNeighbors.knn(tree::KDTree, points, k)
+    dim = size(points,1)
+    npoints = size(points,2)
+    inds   = Array(Csize_t, k, npoints)
+    dists2 = Array(Cdouble, k, npoints)
     ccall((:nanoflann_knn, nanoflann_lib),
-          Cint, (Ptr{Void}, Ptr{Cdouble}, Cint, Cint, Ptr{Csize_t}, Ptr{Cdouble}),
-          tree.ptr, point, length(point), k, inds, dists2) != 0 || error("Error in nanoflann_knn")
+          Cint, (Ptr{Void}, Ptr{Cdouble}, Csize_t, Csize_t, Cint, Ptr{Csize_t}, Ptr{Cdouble}),
+                 tree.ptr,  points,       dim,     npoints, k,    inds,         dists2) == 1 ||
+        error("Error in nanoflann_knn")
     (map(Int, inds)+1, dists2)
 end
 

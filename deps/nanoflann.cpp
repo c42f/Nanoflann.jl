@@ -24,7 +24,7 @@ class ArrayPointWrapper
 
         int numDims() const
         {
-            // Statically known Dim should be inlined when possible
+            // If statically known, Dim should be inlined
             return Dim == -1 ? m_numDims : Dim;
         }
 
@@ -117,11 +117,19 @@ void* nanoflann_build_tree(const double* data, int dim, size_t npoints)
     return new TreeWrapperN<-1>(data, npoints, dim);
 }
 
-int nanoflann_knn(const void* tree, const double* point, int dim, int k,
-                  size_t* result_inds, double* result_dist2)
+int nanoflann_knn(const void* tree, const double* points, size_t dim, size_t numPoints,
+                  int k, size_t* result_inds, double* result_dist2)
 {
     const TreeWrapper* wrapper = static_cast<const TreeWrapper*>(tree);
-    return wrapper->knnSearch(point, dim, k, result_inds, result_dist2);
+    for (size_t i = 0; i < numPoints; ++i)
+    {
+        if (!wrapper->knnSearch(points + dim*i, dim, k,
+                                result_inds + k*i, result_dist2 + k*i))
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 void nanoflann_free_tree(void* tree)
